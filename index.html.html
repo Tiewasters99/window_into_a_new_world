@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Miniverse - Pitch Deck</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0a23 0%, #1a1a40 50%, #2d1b69 100%);
+            color: white;
+            overflow-x: hidden;
+        }
+
+        .deck-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        .slide {
+            display: none;
+            width: 100%;
+            height: 100vh;
+            padding: 60px 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 20%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(255, 119, 198, 0.2) 0%, transparent 50%),
+                        radial-gradient(circle at 40% 40%, rgba(120, 219, 226, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Logo Styles */
+        .miniverse-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .logo-container {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin-right: 20px;
+        }
+
+        .logo-ring {
+            position: absolute;
+            border: 3px solid;
+            border-radius: 50%;
+            animation: rotate 20s linear infinite;
+        }
+
+        .logo-ring.outer {
+            width: 120px;
+            height: 120px;
+            border-color: #00d4ff transparent #00d4ff transparent;
+            top: 0;
+            left: 0;
+        }
+
+        .logo-ring.middle {
+            width: 90px;
+            height: 90px;
+            border-color: #ff6b9d transparent #ff6b9d transparent;
+            top: 15px;
+            left: 15px;
+            animation-direction: reverse;
+            animation-duration: 15s;
+        }
+
+        .logo-ring.inner {
+            width: 60px;
+            height: 60px;
+            border-color: #c77dff transparent #c77dff transparent;
+            top: 30px;
+            left: 30px;
+            animation-duration: 10s;
+        }
+
+        .logo-core {
+            position: absolute;
+            top: 45px;
+            left: 45px;
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(45deg, #00d4ff, #ff6b9d, #c77dff);
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.8; }
+        }
+
+        .logo-text {
+            font-size: 3.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #00d4ff, #ff6b9d, #c77dff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(0, 212, 255, 0.5);
+        }
+
+        h1 {
+            font-size: 4rem;
+            font-weight: 900;
+            margin-bottom: 30px;
+            text-align: center;
+            background: linear-gradient(135deg, #00d4ff, #ff6b9d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(0, 212, 255, 0.3);
+            line-height: 1.2;
+        }
+
+        h2 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 40px;
+            text-align: center;
+            color: #ffffff;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+        }
+
+        .tagline {
+            font-size: 1.8rem;
+            font-weight: 300;
+            text-align: center;
+            color: #b8b8ff;
+            margin-bottom: 60px;
+            font-style: italic;
+        }
+
+        .content-grid {
+            display: grid;
+            gap: 40px;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .two-column {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .crisis-box {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 107, 157, 0.3);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: left;
+        }
+
+        .crisis-box h3 {
+            color: #ff6b9d;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+
+        .crisis-box ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .crisis-box li {
+            margin-bottom: 15px;
+            padding-left: 25px;
+            position: relative;
+            line-height: 1.6;
+        }
+
+        .crisis-box li::before {
+            content: "•";
+            color: #00d4ff;
+            font-size: 1.5rem;
+            position: absolute;
+            left: 0;
+            top: -2px;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.2);
+            border-color: rgba(0, 212, 255, 0.6);
+        }
+
+        .feature-card h3 {
+            color: #00d4ff;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .feature-list {
+            text-align: left;
+            margin-top: 20px;
+        }
+
+        .feature-list li {
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .feature-list li::before {
+            content: "▶";
+            color: #c77dff;
+            position: absolute;
+            left: 0;
+        }
+
+        .tech-stack {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .tech-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(199, 125, 255, 0.3);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .tech-item h4 {
+            color: #c77dff;
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+
+        .funding-breakdown {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .funding-item {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(255, 107, 157, 0.1));
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .funding-amount {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #00d4ff;
+            margin-bottom: 5px;
+        }
+
+        .roadmap {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .roadmap-phase {
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 4px solid #ff6b9d;
+            border-radius: 10px;
+            padding: 30px;
+        }
+
+        .roadmap-phase h4 {
+            color: #ff6b9d;
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+        }
+
+        .phase-goal {
+            color: #00d4ff;
+            font-weight: bold;
+            font-style: italic;
+            margin-top: 15px;
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            z-index: 1000;
+        }
+
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            border-radius: 50px;
+            padding: 12px 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-btn:hover {
+            background: rgba(0, 212, 255, 0.3);
+            transform: scale(1.05);
+        }
+
+        .slide-counter {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            z-index: 1000;
+        }
+
+        .vision-text {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto 40px auto;
+            color: #e0e0ff;
+        }
+
+        .impact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .impact-item {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(199, 125, 255, 0.1));
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .impact-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .cta-section {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .cta-amount {
+            font-size: 3rem;
+            font-weight: 900;
+            color: #00d4ff;
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+            margin-bottom: 20px;
+        }
+
+        .cta-text {
+            font-size: 1.4rem;
+            color: #b8b8ff;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .slide {
+                padding: 40px 30px;
+            }
+            
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            h2 {
+                font-size: 2rem;
+            }
+            
+            .content-grid.two-column {
+                grid-template-columns: 1fr;
+            }
+            
+            .logo-text {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="deck-container">
+        <div class="slide-counter">
+            <span id="current-slide">1</span> / <span id="total-slides">12</span>
+        </div>
+
+        <!-- Slide 1: Title -->
+        <div class="slide active">
+            <div class="miniverse-logo">
+                <div class="logo-container">
+                    <div class="logo-ring outer"></div>
+                    <div class="logo-ring middle"></div>
+                    <div class="logo-ring inner"></div>
+                    <div class="logo-core"></div>
+                </div>
+                <div class="logo-text">The Miniverse</div>
+            </div>
+            <div class="tagline">Transforming Digital Dead Time into Strategic Opportunity</div>
+        </div>
+
+        <!-- Slide 2: The Dual Crisis -->
+        <div class="slide">
+            <h2>Businesses are Fighting a Two-Front War for Attention</h2>
+            <div class="content-grid two-column">
+                <div class="crisis-box">
+                    <h3>Front 1: The Attention Crisis</h3>
+                    <p style="color: #ff6b9d; margin-bottom: 20px; font-style: italic;">(Top of Funnel)</p>
+                    <ul>
+                        <li>The internet is saturated; traditional 2D websites are static brochures</li>
+                        <li>High bounce rates and low "stickiness" waste marketing spend</li>
+                        <li>Businesses struggle to differentiate in the crucial first seconds</li>
+                    </ul>
+                </div>
+                <div class="crisis-box">
+                    <h3>Front 2: The Cost of Waiting</h3>
+                    <p style="color: #ff6b9d; margin-bottom: 20px; font-style: italic;">(Bottom of Funnel)</p>
+                    <ul>
+                        <li>Traditional waiting experience (on hold, static lobbies) is universally despised</li>
+                        <li>Waiting actively erodes goodwill and brand loyalty</li>
+                        <li>This time is currently unmanaged and unmonetized</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: The Vision -->
+        <div class="slide">
+            <h2>We are moving beyond the 2D Internet</h2>
+            <div class="vision-text">
+                The Miniverse is a B2B SaaS platform that replaces flat digital interactions with immersive, interactive 3D environments.
+            </div>
+            <div class="vision-text" style="font-size: 1.4rem; color: #00d4ff;">
+                <strong>Our Goal:</strong> To capture attention during the discovery phase and engage clients during wait times.
+            </div>
+            <div class="impact-grid">
+                <div class="impact-item">
+                    <div class="impact-icon">🌐</div>
+                    <h4>Immersive Layer</h4>
+                    <p>The next evolution of web interaction</p>
+                </div>
+                <div class="impact-item">
+                    <div class="impact-icon">⚡</div>
+                    <h4>Instant Engagement</h4>
+                    <p>Capture attention in crucial first seconds</p>
+                </div>
+                <div class="impact-item">
+                    <div class="impact-icon">💎</div>
+                    <h4>Premium Experience</h4>
+                    <p>Transform waiting from liability to asset</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Discovery Miniverse -->
+        <div class="slide">
+            <h2>The Virtual Front Door</h2>
+            <p style="text-align: center; font-size: 1.3rem; color: #b8b8ff; margin-bottom: 40px; font-style: italic;">Attracting and Converting</p>
+            <div class="feature-card">
+                <h3>Replacing static websites with immersive portals to capture browsing traffic</h3>
+                <div class="feature-list">
+                    <h4 style="color: #00d4ff; margin-bottom: 15px;">Key Features:</h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li>Virtual Showrooms (Retail, Automotive)</li>
+                        <li>Immersive Portfolios (Real Estate, Architecture)</li>
+                        <li>Interactive Product Demonstrations</li>
+                        <li>3D Brand Experiences</li>
+                    </ul>
+                </div>
+                <div class="impact-grid" style="margin-top: 30px;">
+                    <div class="impact-item">
+                        <div class="impact-icon">📈</div>
+                        <h4>Increased Engagement</h4>
+                        <p>Higher stickiness & time on site</p>
+                    </div>
+                    <div class="impact-item">
+                        <div class="impact-icon">🎯</div>
+                        <h4>Higher Conversions</h4>
+                        <p>Turn browsers into buyers</p>
+                    </div>
+                    <div class="impact-item">
+                        <div class="impact-icon">⭐</div>
+                        <h4>Brand Differentiation</h4>
+                        <p>Stand out from competition</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Waiting Room Miniverse -->
+        <div class="slide">
+            <h2>The Productive Wait</h2>
+            <p style="text-align: center; font-size: 1.3rem; color: #b8b8ff; margin-bottom: 40px; font-style: italic;">Engaging and Optimizing</p>
+            <div class="feature-card">
+                <h3>Transforming scheduled wait times from a liability into an asset</h3>
+                <div class="content-grid" style="grid-template-columns: repeat(3, 1fr); gap: 25px; margin-top: 30px;">
+                    <div class="tech-item">
+                        <h4>The Productivity Hub</h4>
+                        <p>Intake forms, verification, document uploads</p>
+                    </div>
+                    <div class="tech-item">
+                        <h4>The Education Center</h4>
+                        <p>FAQs, White Papers, Resource Library</p>
+                    </div>
+                    <div class="tech-item">
+                        <h4>The Brand Showcase</h4>
+                        <p>Credentials, Testimonials, Success Stories</p>
+                    </div>
+                </div>
+                <div class="impact-grid" style="margin-top: 30px;">
+                    <div class="impact-item">
+                        <div class="impact-icon">⚙️</div>
+                        <h4>Operational Efficiency</h4>
+                        <p>Streamlined processes</p>
+                    </div>
+                    <div class="impact-item">
+                        <div class="impact-icon">❤️</div>
+                        <h4>Enhanced Loyalty</h4>
+                        <p>Positive waiting experience</p>
+                    </div>
+                    <div class="impact-item">
+                        <div class="impact-icon">💰</div>
+                        <h4>Upsell Opportunities</h4>
+                        <p>Convert wait time to revenue</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Technology -->
+        <div class="slide">
+            <h2>Built for Scale, Security, and Instant Access</h2>
+            <div class="tech-stack">
+                <div class="tech-item">
+                    <h4>🌐 Frictionless Access</h4>
+                    <p>Browser-based - no apps or special hardware required</p>
+                </div>
+                <div class="tech-item">
+                    <h4>🎮 WebGL (Three.js)</h4>
+                    <p>High-quality, interactive 3D rendering</p>
+                </div>
+                <div class="tech-item">
+                    <h4>📹 WebRTC</h4>
+                    <p>Seamless transition to live audio/video communication</p>
+                </div>
+                <div class="tech-item">
+                    <h4>🔗 Integration Layer</h4>
+                    <p>APIs for CRM, EHR, and Booking platforms</p>
+                </div>
+                <div class="tech-item">
+                    <h4>🛡️ Compliance Focus</h4>
+                    <p>HIPAA, GDPR, and enterprise security standards</p>
+                </div>
+                <div class="tech-item">
+                    <h4>☁️ Cloud Infrastructure</h4>
+                    <p>Scalable, reliable, and globally distributed</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: TAM -->
+        <div class="slide">
+            <h2>A Massive, Untapped Opportunity</h2>
+            <div class="content-grid">
+                <div class="feature-card" style="text-align: left;">
+                    <h3 style="text-align: center; margin-bottom: 30px;">Key Markets</h3>
+                    <div class="feature-list">
+                        <ul style="list-style: none; padding: 0; font-size: 1.1rem;">
+                            <li>🏛️ Professional Services (Legal, Finance)</li>
+                            <li>🏥 Healthcare (Telehealth)</li>
+                            <li>🏠 Real Estate/Architecture</li>
+                            <li>🛍️ High-End Retail</li>
+                            <li>🎓 Education & Training</li>
+                            <li>🏢 Corporate Communications</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 40px; padding: 30px; background: rgba(255, 255, 255, 0.05); border-radius: 20px;">
+                <h3 style="color: #00d4ff; margin-bottom: 20px; font-size: 1.8rem;">Why Now?</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 20px;">
+                    <div>
+                        <h4 style="color: #ff6b9d;">Market Shift</h4>
+                        <p>The shift to remote services and digital-first interactions</p>
+                    </div>
+                    <div>
+                        <h4 style="color: #ff6b9d;">Technology Maturity</h4>
+                        <p>Web-based 3D technology is now production-ready</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Business Model -->
+        <div class="slide">
+            <h2>Scalable B2B SaaS Model</h2>
+            <div class="content-grid two-column">
+                <div class="feature-card">
+                    <h3>Pricing Model</h3>
+                    <div style="text-align: left; margin-top: 20px;">
+                        <div style="margin-bottom: 15px; padding: 15px; background: rgba(0, 212, 255, 0.1); border-radius: 10px;">
+                            <h4 style="color: #00d4ff;">Tier 1: Standard</h4>
+                            <p>Template-based solutions, basic integrations</p>
+                        </div>
+                        <div style="margin-bottom: 15px; padding: 15px; background: rgba(255, 107, 157, 0.1); border-radius: 10px;">
+                            <h4 style="color: #ff6b9d;">Tier 2: Professional</h4>
+                            <p>Custom environments, advanced integrations</p>
+                        </div>
+                        <div style="padding: 15px; background: rgba(199, 125, 255, 0.1); border-radius: 10px;">
+                            <h4 style="color: #c77dff;">Tier 3: Enterprise</h4>
+                            <p>Full customization, white-label options</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <h3>Go-to-Market Strategy</h3>
+                    <div style="text-align: left; margin-top: 20px;">
+                        <div style="margin-bottom: 20px;">
+                            <h4 style="color: #00d4ff;">Phase 1</h4>
+                            <p>Target high-value professional services (Finance/Law) where visualization and wait times are critical</p>
+                        </div>
+                        <div>
+                            <h4 style="color: #ff6b9d;">Phase 2</h4>
+                            <p>Expand into Telehealth (efficiency focus) and Real Estate (visualization focus)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Roadmap -->
+        <div class="slide">
+            <h2>Rapid Development to Product-Market Fit</h2>
+            <div class="roadmap">
+                <div class="roadmap-phase">
+                    <h4>Months 1-6: The Immersive Portal</h4>
+                    <ul style="list-style: none; padding: 0; margin-top: 15px;">
+                        <li>• Core platform development</li>
+                        <li>• Deployment of Waiting Room templates</li>
+                        <li>• Discovery environment templates</li>
+                        <li>• Beta testing program</li>
+                    </ul>
+                    <div class="phase-goal">Goal: First Client Live</div>
+                </div>
+                <div class="roadmap-phase">
+                    <h4>Months 7-12: Integration & Expansion</h4>
+                    <ul style="list-style: none; padding: 0; margin-top: 15px;">
+                        <li>• Deeper CRM integrations</li>
+                        <li>• Content Management System</li>
+                        <li>• Analytics dashboard</li>
+                        <li>• Mobile optimization</li>
+                    </ul>
+                    <div class="phase-goal">Goal: 3-5 Paying Pilots</div>
+                </div>
+                <div class="roadmap-phase">
+                    <h4>Months 13+: Scaling</h4>
+                    <ul style="list-style: none; padding: 0; margin-top: 15px;">
+                        <li>• AI-driven features</li>
+                        <li>• Self-service tools</li>
+                        <li>• Marketplace expansion</li>
+                        <li>• Global deployment</li>
+                    </ul>
+                    <div class="phase-goal">Goal: Scale to 50+ Clients</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: Team -->
+        <div class="slide">
+            <h2>The Core Team</h2>
+            <div style="text-align: center; margin-bottom: 40px;">
+                <p style="font-size: 1.3rem; color: #b8b8ff; font-style: italic;">Required Expertise for Success</p>
+            </div>
+            <div class="tech-stack">
+                <div class="tech-item">
+                    <h4>🎯 Leadership</h4>
+                    <p>Visionary CEO with B2B SaaS experience</p>
+                </div>
+                <div class="tech-item">
+                    <h4>⚡ Technical Lead</h4>
+                    <p>CTO with WebGL/3D development expertise</p>
+                </div>
+                <div class="tech-item">
+                    <h4>🎨 Creative Director</h4>
+                    <p>3D Artists and UX/UI designers</p>
+                </div>
+                <div class="tech-item">
+                    <h4>🔧 Engineering</h4>
+                    <p>Full-Stack Engineers with real-time systems experience</p>
+                </div>
+                <div class="tech-item">
+                    <h4>📊 Growth</h4>
+                    <p>B2B Sales and Marketing professionals</p>
+                </div>
+                <div class="tech-item">
+                    <h4>🛡️ Operations</h4>
+                    <p>DevOps and Security specialists</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: Funding -->
+        <div class="slide">
+            <div class="cta-section">
+                <h2>Seed Investment Opportunity</h2>
+                <div class="cta-amount">$2.0 Million</div>
+                <div class="cta-text">Seed Funding for an 18-month runway</div>
+            </div>
+            <div class="funding-breakdown">
+                <div class="funding-item">
+                    <div class="funding-amount">$1.55M</div>
+                    <div>Personnel</div>
+                    <p style="font-size: 0.9rem; margin-top: 5px; opacity: 0.8;">CTO, 3D Artists, Full-Stack Engineers</p>
+                </div>
+                <div class="funding-item">
+                    <div class="funding-amount">$100K</div>
+                    <div>Infrastructure & Software</div>
+                    <p style="font-size: 0.9rem; margin-top: 5px; opacity: 0.8;">Cloud services, development tools</p>
+                </div>
+                <div class="funding-item">
+                    <div class="funding-amount">$75K</div>
+                    <div>Legal & Compliance</div>
+                    <p style="font-size: 0.9rem; margin-top: 5px; opacity: 0.8;">HIPAA, GDPR, patents</p>
+                </div>
+                <div class="funding-item">
+                    <div class="funding-amount">$125K</div>
+                    <div>Marketing & Go-to-Market</div>
+                    <p style="font-size: 0.9rem; margin-top: 5px; opacity: 0.8;">Sales team, campaigns</p>
+                </div>
+                <div class="funding-item">
+                    <div class="funding-amount">$150K</div>
+                    <div>Operating Reserve</div>
+                    <p style="font-size: 0.9rem; margin-top: 5px; opacity: 0.8;">Risk management buffer</p>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 50px; padding: 30px; background: rgba(255, 255, 255, 0.05); border-radius: 20px;">
+                <h3 style="color: #00d4ff; margin-bottom: 15px;">Our Mission</h3>
+                <p style="font-size: 1.2rem; line-height: 1.6;">Achieve product-market fit, capture first-mover advantage, and define the future of immersive business engagement.</p>
+            </div>
+        </div>
+
+        <!-- Slide 12: Closing -->
+        <div class="slide">
+            <div class="miniverse-logo">
+                <div class="logo-container">
+                    <div class="logo-ring outer"></div>
+                    <div class="logo-ring middle"></div>
+                    <div class="logo-ring inner"></div>
+                    <div class="logo-core"></div>
+                </div>
+                <div class="logo-text">The Miniverse</div>
+            </div>
+            <h2 style="margin-top: 50px;">Thank You</h2>
+            <div style="font-size: 1.5rem; color: #b8b8ff; margin-top: 30px;">
+                Questions & Discussion
+            </div>
+            <div style="margin-top: 50px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; max-width: 800px;">
+                <div class="impact-item">
+                    <div class="impact-icon">🚀</div>
+                    <h4>Ready to Launch</h4>
+                    <p>Let's transform digital engagement together</p>
+                </div>
+                <div class="impact-item">
+                    <div class="impact-icon">💡</div>
+                    <h4>Innovative Vision</h4>
+                    <p>The future of immersive business</p>
+                </div>
+                <div class="impact-item">
+                    <div class="impact-icon">📈</div>
+                    <h4>Massive Opportunity</h4>
+                    <p>First-mover advantage awaits</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="navigation">
+            <button class="nav-btn" onclick="previousSlide()">← Previous</button>
+            <button class="nav-btn" onclick="nextSlide()">Next →</button>
+        </div>
+    </div>
+
+    <script>
+        // Initialize variables
+        let currentSlide = 0;
+        let slides = [];
+        let totalSlides = 0;
+
+        // Wait for DOM to be fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded, initializing presentation...');
+            
+            // Get all slides
+            slides = document.querySelectorAll('.slide');
+            totalSlides = slides.length;
+            
+            console.log('Found', totalSlides, 'slides');
+            
+            // Update slide counter
+            const totalSlidesElement = document.getElementById('total-slides');
+            const currentSlideElement = document.getElementById('current-slide');
+            
+            if (totalSlidesElement) {
+                totalSlidesElement.textContent = totalSlides;
+            }
+            if (currentSlideElement) {
+                currentSlideElement.textContent = '1';
+            }
+            
+            // Ensure first slide is active
+            if (slides.length > 0) {
+                slides[0].classList.add('active');
+                console.log('First slide activated');
+            }
+        });
+
+        function showSlide(n) {
+            console.log('Showing slide:', n);
+            
+            if (slides.length === 0) {
+                console.error('No slides found!');
+                return;
+            }
+            
+            // Remove active class from current slide
+            if (slides[currentSlide]) {
+                slides[currentSlide].classList.remove('active');
+            }
+            
+            // Calculate new slide index
+            currentSlide = ((n % totalSlides) + totalSlides) % totalSlides;
+            
+            // Add active class to new slide
+            if (slides[currentSlide]) {
+                slides[currentSlide].classList.add('active');
+                console.log('Activated slide:', currentSlide + 1);
+            }
+            
+            // Update counter
+            const currentSlideElement = document.getElementById('current-slide');
+            if (currentSlideElement) {
+                currentSlideElement.textContent = currentSlide + 1;
+            }
+        }
+
+        function nextSlide() {
+            console.log('Next slide clicked');
+            showSlide(currentSlide + 1);
+        }
+
+        function previousSlide() {
+            console.log('Previous slide clicked');
+            showSlide(currentSlide - 1);
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            console.log('Key pressed:', e.key);
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                e.preventDefault();
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                previousSlide();
+            }
+        });
+
+        // Click navigation (fallback)
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('nav-btn')) {
+                console.log('Navigation button clicked:', e.target.textContent);
+            }
+        });
+
+        // Touch/swipe support for mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', function(e) {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        document.addEventListener('touchend', function(e) {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, { passive: true });
+
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            const diff = touchStartX - touchEndX;
+            
+            if (Math.abs(diff) > swipeThreshold) {
+                if (diff > 0) {
+                    nextSlide(); // Swipe left = next slide
+                } else {
+                    previousSlide(); // Swipe right = previous slide
+                }
+            }
+        }
+
+        // Debug function - call this in console to check status
+        function debugSlides() {
+            console.log('Current slide:', currentSlide);
+            console.log('Total slides:', totalSlides);
+            console.log('Slides array:', slides);
+            console.log('Active slide:', document.querySelector('.slide.active'));
+        }
+    </script>
+</body>
+</html>
