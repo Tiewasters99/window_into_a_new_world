@@ -1,0 +1,1 @@
+This is presentation for a new concept -- the Miniverse -- a customized 3-D portal designed to transform dead waiting time into a rich interactive experience and to provide static 2D websites with immersive 3-D virtual offices and waiting rooms.
